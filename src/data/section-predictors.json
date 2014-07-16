@@ -8,5 +8,7 @@
 	"canvassize": ["canvas-size"],
 	"aspectratio": ["aspect-ratio"],
 	"medium": ["medium", "canvas"],
-	"style": ["style"]
+	"style": ["style"],
+	"colour": ["colour-profile"],
+	"artistage": ["artist-age"]
 }

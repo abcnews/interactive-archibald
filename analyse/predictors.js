@@ -68,6 +68,9 @@ predictors = [{
 	id: 'style',
 	method: 'percentage',
 	weight: 1.5
+},{
+	id: 'artist-age',
+	method: 'meandistance'
 }];
 
 function Predictors(winnersData) {
@@ -167,6 +170,8 @@ function preProcessWinnersData(data) {
 		d['location-state'] = location[1];
 
 		d['panels'] = d['width'].split(',').length + '';
+
+		d['artist-age'] = d['ageofartist'];
 		
 		medium = d.medium.split(' on ');
 		d.medium = medium[0];
@@ -187,6 +192,8 @@ function preProcessFinalistData(d) {
 	d['location-state'] = location[1];
 
 	d['panels'] = d['width'].split(',').length + '';
+
+	d['artist-age'] = d['artistage'];
 
 	medium = d.medium.split(' on ');
 	d.medium = medium[0];

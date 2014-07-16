@@ -32,15 +32,13 @@ function init(settings) {
 	}).sort();
 
 	$yearsSliderEl = $('<div></div>').appendTo(settings.container);
-	$yearsSliderEl.on('mouseenter', function(){
-		clearInterval(cycleTimer);
-		clearTimeout(cycleTimer);
-		cycleTimer = setTimeout(startHueChartCycle, 15000);
-	});
-    yearsSlider = new Slider($yearsSliderEl.get(0), years, function (year) {
+	yearsSlider = new Slider($yearsSliderEl.get(0), years, function (year) {
 		displayYear(yearsMap[year]);
-		current = data.indexOf(yearsMap[year]);
-    });
+	});
+
+	$yearsSliderEl.on('mousedown keydown', pauseAnimation);
+
+	$('.OrdinalRangeSlider-handle').on('mouseenter', pauseAnimation);
 
 	animationSpeed = 1000;
 
@@ -51,12 +49,17 @@ function init(settings) {
 	// Start with something
 	current = 0;
 
-	startHueChartCycle();
+	cycleHueChart();
 
 	$.waypoints('refresh');
 
 	// change with the times
 	d3.select(window).on('resize', setSize);
+}
+
+function pauseAnimation(){
+	clearTimeout(cycleTimer);
+	cycleTimer = setTimeout(cycleHueChart, 10000);
 }
 
 function insertFilter(svg) {
@@ -90,7 +93,7 @@ function setSize() {
 
 function startHueChartCycle() {
 	// update chart frequently
-	cycleTimer = setInterval(cycleHueChart, animationSpeed);
+	cycleTimer = setTimeout(cycleHueChart, animationSpeed);
 }
 
 function cycleHueChart() {
@@ -102,18 +105,24 @@ function cycleHueChart() {
 	}
 
 	yearsSlider.setCategory(data[current].year);
+
+	requestAnimationFrame(function(){
+		cycleTimer = setTimeout(cycleHueChart, animationSpeed);
+	});
 }
 
-function displayYear(data) {
+function displayYear(dataYear) {
+
+	current = data.indexOf(dataYear);
+
 	// Update the bars
-	hue.selectAll('.bar').data(data.hueHistogram).call(updateHueChart);
+	hue.selectAll('.bar').data(dataYear.hueHistogram).call(updateHueChart);
 
 	// update the year
-	hue.selectAll('.year').data([data.year]).call(updateYear);
+	hue.selectAll('.year').data([dataYear.year]).call(updateYear);
 
 	// update the swatchs
-	palette.selectAll('.swatch').data(data.palette).call(updateSwatches);
-
+	palette.selectAll('.swatch').data(dataYear.palette).call(updateSwatches);
 
 }
 
@@ -158,7 +167,7 @@ function updateHueChart(s) {
 
 	hueScale = d3.scale.linear()
 		.clamp(true)
-		.range([30, Math.max(w,h)/2])
+		.range([30, Math.max(w,h)/2-30])
 		.domain([0.001,Math.max.apply(null, data[current].hueHistogram)]);
 
 	arcGenerator = d3.svg.arc()
@@ -194,4 +203,8 @@ function updateHueChart(s) {
 		.attr('d', arcGenerator);
 }
 
-module.exports = init;
+module.exports = {
+	init: init,
+	pause: pauseAnimation,
+	play: cycleHueChart
+};

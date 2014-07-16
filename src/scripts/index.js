@@ -147,7 +147,7 @@ function dataFetched(data) {
 		updateFinalistsPanel();
 
 		// Initialise the colour panel
-		hues({
+		hues.init({
 			container: $('<div class="archibald-colours">').insertAfter($('#colour').find('h2')).get(0),
 			data: archibald.data.winners
 		});

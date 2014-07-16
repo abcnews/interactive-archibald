@@ -80,19 +80,24 @@ $font-family: "ProximaNova", "Interval Sans Pro", Arial, Helvetica, sans-serif;
 				}
 			}
 
+			.OrdinalRangeSlider-label {
+				width: 40px;
+				margin-left: -20px;
+			}
+
 			.OrdinalRangeSlider-tick:nth-child(5n-3),
 			.OrdinalRangeSlider-tick:nth-child(5n-2),
 			.OrdinalRangeSlider-tick:nth-child(5n-1),
 			.OrdinalRangeSlider-tick:nth-child(5n) {
 				color: #000;
 				.OrdinalRangeSlider-label {
-					visibility: hidden;
+					display: none;
 				}
 			}
 
 			.OrdinalRangeSlider-tick--active {
 				.OrdinalRangeSlider-label {
-					visibility: visible !important;
+					display: block !important;
 					bottom: 22px;
 				}
 			}

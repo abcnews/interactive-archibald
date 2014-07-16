@@ -53,8 +53,9 @@ Stats.prototype.meandistance = function(field, value) {
 	mean = this.mean(field);
 	sd = this.sd(field);
 
+	// If a value is missing assume one standard deviation from the mean.
 	if (+value === 0) {
-		return mean;
+		return 1/(sd/sd+1);
 	}
 	
 	return 1/(Math.abs(value-mean)/sd+1);
