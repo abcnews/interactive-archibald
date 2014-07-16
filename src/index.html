@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>news-interactive-archibald</title>
+		<link rel="stylesheet" type="text/css" media="(min-width: 641px)" href="http://www.abc.net.au/res/sites/news/styles/min/abc.news.css">
+		<!--[if !IE]><!-->
+		<link rel="stylesheet" type="text/css" media="(max-width: 640px)" href="http://mobile.abc.net.au/res/sites/news/styles/min/abc.news.mobile.css">
+		<script>
+		window.onload = function () {
+			var mql = window.matchMedia("(min-width: 641px)");
+			var classed = function(el, className, bool) {
+				var current = el.className.split(' ');
+				var classNames = className.split(' ');
+				if (bool) {
+					el.className = current.concat(classNames).reduce(function(r, c){
+						if (r.indexOf(c) === -1) r.push(c);
+						return r;
+					}, []).join(' ');
+				} else {
+					el.className = current.filter(function(c){
+						return classNames.indexOf(c) === -1;
+					}).join(' ');
+				}
+			};
+			var handleMediaChange = function (mediaQueryList) {
+				// body
+				classed(document.body, 'platform-standard', mediaQueryList.matches);
+				classed(document.body, 'platform-mobile', !mediaQueryList.matches);
+
+				// content
+				classed(contentRoot, 'page_margins', mediaQueryList.matches);
+				classed(contentRoot, 'content', !mediaQueryList.matches);
+				
+				// fragment
+				classed(fragmentRoot, 'inline-content html-fragment full', mediaQueryList.matches);
+				classed(fragmentRoot, 'embed-fragment', !mediaQueryList.matches);
+				
+				// article
+				classed(articleRoot, 'article', mediaQueryList.matches);
+				classed(articleRoot, 'story richtext', !mediaQueryList.matches);
+			};
+			mql.addListener(handleMediaChange);
+			handleMediaChange(mql);
+		};
+		</script>
+		<!--<![endif]-->
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+		<style>
+			.archibald-section {
+				/*min-height: 500px;*/
+			}
+
+			#articleRoot {
+				margin-bottom: 1800px;
+			}
+		</style>
+	</head>
+	<body class="platform-standard">
+		<div id="contentRoot" class="content">
+
+			<article>
+
+				<!-- START CORE MEDIA ARTICLE -->
+				<div id="articleRoot" class="article section">
+ 
+					<h1>Archibald Analysis</h1>
+					<div class="inline-content wysiwyg full">
+						<div class="inner">
+						<h2>Some important sub-heading type information...</h2>
+						By Tim Leslie, Development by Simon Elvery &amp; Design by Ben Spraggon<br> 
+						<div class="inline-content html-fragment full">
+							<div class="article section">
+								<div class="tools">
+									<a class="button print-story" href="#"><span class="icon-12x9"></span> Print</a> 
+									<a class="button email-story" href="http://www2b.abc.net.au/EAF/View/MailToQuery.aspx?http://nucwed.aus.aunty.abc.net.au/news/2014-07-14/archibald-analysis/5594070"><span class="icon-12x9"></span> Email</a>
+									<a class="button facebook" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fnucwed.aus.aunty.abc.net.au%2Fnews%2F2014-07-14%2Farchibald-analysis%2F5594070&amp;t=Archibald%20Analysis"><span class="icon-12x12"></span> Facebook</a> 
+									<a class="button twitter" href="http://twitter.com/intent/tweet?text=Archibald%20Analysis%20http%3A%2F%2Fnucwed.aus.aunty.abc.net.au%2Fnews%2F2014-07-14%2Farchibald-analysis%2F5594070&amp;via=ABCNews&amp;related=abcnews"><span class="icon-12x12"></span> Twitter</a>
+									<a class="button share-story" href="#"><span class="icon-12x9"></span> More</a>
+								</div>
+							</div>
+						</div><br> 
+						</div>
+					</div>
+
+					<!-- START CORE MEDIA FRAGMENT -->
+					<div id="fragmentRoot" class="inline-content html-fragment full">
+						<link rel="stylesheet" type="text/css" href="http://www.abc.net.au/news/code/5433176/Header+CSS+v4+%28For+Articles%29.css">
+
+						<!-- these live here because that's how they're usually deployed, 
+							 but if you want to do it different, nobody's stopping you. -->
+						<link rel="stylesheet" type="text/css" href="styles/index.css" />
+						
+						<script src="scripts/index.js"></script>
+						<script id="archibald-init">
+							ABC.News.interactive.archibald.init({
+								assets: '.'
+							});
+						</script>
+						
+						<div class="archibald-header"></div>
+
+						<!--[if gte IE 8]><!-->
+						<script src="http://www.abc.net.au/res/libraries/d3/d3-3.4.8.min.js"></script>
+						<!--<![endif]-->
+						<!--[if lt IE 8]>
+
+						[unsupported browser message]
+
+						<![endif]-->
+ 
+						
+ 
+					</div><!-- /END CORE MEDIA FRAGMENT -->
+					<p class="first">Opening par; may not be wanted.</p><a name="canvassize"> </a><h2>Canvas size</h2><p>Hoodie cred fanny pack blog fap, PBR Portland Carles hashtag Wes Anderson narwhal chillwave. Pug Wes Anderson PBR mlkshk biodiesel. </p><a name="subjectgender"> </a><h2>Subject gender</h2><p>Hoodie cred fanny pack blog fap, PBR Portland Carles hashtag Wes Anderson narwhal chillwave. Pug Wes Anderson PBR mlkshk biodiesel. </p><blockquote><p>Hoodie cred fanny pack blog fap, PBR Portland Carles hashtag Wes Anderson narwhal chillwave. Pug Wes Anderson PBR mlkshk biodiesel. </p><p>Hoodie cred fanny pack blog fap, PBR Portland Carles hashtag Wes Anderson narwhal chillwave. Pug Wes Anderson PBR mlkshk biodiesel. </p></blockquote><a name="artistgender"> </a><h2>Artist gender</h2><p>Hoodie cred fanny pack blog fap, PBR Portland Carles hashtag Wes Anderson narwhal chillwave. Pug Wes Anderson PBR mlkshk biodiesel. </p><a name="subjectethnicity"> </a><h2>Subject ethnicity</h2><p>Hoodie cred fanny pack blog fap, PBR Portland Carles hashtag Wes Anderson narwhal chillwave. Pug Wes Anderson PBR mlkshk biodiesel. </p><a name="artistethnicity"> </a><h2>Artist ethnicity</h2><p>Hoodie cred fanny pack blog fap, PBR Portland Carles hashtag Wes Anderson narwhal chillwave. Pug Wes Anderson PBR mlkshk biodiesel. </p><a name="artistlocation"> </a><h2>Artist location</h2><p>Hoodie cred fanny pack blog fap, PBR Portland Carles hashtag Wes Anderson narwhal chillwave. Pug Wes Anderson PBR mlkshk biodiesel. </p><a name="subjectoccupation"> </a><h2>Subject occupation</h2><p>Hoodie cred fanny pack blog fap, PBR Portland Carles hashtag Wes Anderson narwhal chillwave. Pug Wes Anderson PBR mlkshk biodiesel. </p><a name="aspectratio"> </a><h2>Aspect ratio</h2><p>Hoodie cred fanny pack blog fap, PBR Portland Carles hashtag Wes Anderson narwhal chillwave. Pug Wes Anderson PBR mlkshk biodiesel. </p><a name="previousentries"> </a><h2>Previous entries, etc</h2><p>Hoodie cred fanny pack blog fap, PBR Portland Carles hashtag Wes Anderson narwhal chillwave. Pug Wes Anderson PBR mlkshk biodiesel. </p><a name="medium"> </a><h2>Medium</h2><p>Hoodie cred fanny pack blog fap, PBR Portland Carles hashtag Wes Anderson narwhal chillwave. Pug Wes Anderson PBR mlkshk biodiesel. </p><a name="conclusion"> </a><h2>Heading!</h2><p>Hoodie cred fanny pack blog fap, PBR Portland Carles hashtag Wes Anderson narwhal chillwave. Pug Wes Anderson PBR mlkshk biodiesel. Vinyl freegan paleo, butcher brunch Godard Carles lo-fi gentrify mustache try-hard swag ugh. Post-ironic synth semiotics Tonx 3 wolf moon, bitters PBR Marfa salvia cardigan plaid Cosby sweater next level. Ennui Thundercats small batch salvia pug authentic. Occupy literally bespoke, scenester viral Neutra keytar shabby chic Portland keffiyeh yr forage typewriter. Jean shorts McSweeney's photo booth, slow-carb iPhone beard Williamsburg ugh.</p>
+			
+				</div><!-- /END CORE MEDIA ARTICLE -->
+			</article>
+		</div>
+	</body>
+</html>

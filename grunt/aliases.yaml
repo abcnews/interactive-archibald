@@ -1,0 +1,22 @@
+default:
+ - 'dev'
+ - 'connect:dev'
+ - 'watch'
+
+dev:
+ - 'clean'
+ - 'jshint:js'
+ - 'browserify:dev'
+ - 'compass:dev'
+ - 'dir2json:all'
+ - 'copy:static'
+
+prod:
+ - 'clean'
+ - 'jshint:js'
+ - 'browserify:prod'
+ - 'uglify:prod'
+ - 'compass:prod'
+ - 'dir2json:all'
+ - 'copy:static'
+ - 'version'

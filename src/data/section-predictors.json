@@ -1,0 +1,12 @@
+{
+	"subjectgender": ["gender-subject"],
+	"artistgender": ["gender-artist"],
+	"subjectethnicity": ["ethnicity-subject"],
+	"artistethnicity": ["ethnicity-artist"],
+	"subjectoccupation": ["occupation-subject"],
+	"artistlocation": ["location-state","location-city"],
+	"canvassize": ["canvas-size"],
+	"aspectratio": ["aspect-ratio"],
+	"medium": ["medium", "canvas"],
+	"style": ["style"]
+}
