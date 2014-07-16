@@ -18,6 +18,7 @@ $section-overlap: 180px;
 $section-padding: 20px;
 $palette-width: 240px;
 $font-family: "ProximaNova", "Interval Sans Pro", Arial, Helvetica, sans-serif;
+$rank-circumference: 22px;
 
 .platform-mobile,
 .platform-standard {
@@ -58,6 +59,11 @@ $font-family: "ProximaNova", "Interval Sans Pro", Arial, Helvetica, sans-serif;
 
 		p {
 			font-size: 1.3em;
+		}
+
+		>img {
+			margin: 3.5em auto;
+			display: block;
 		}
 
 		blockquote {
@@ -107,16 +113,18 @@ $font-family: "ProximaNova", "Interval Sans Pro", Arial, Helvetica, sans-serif;
 			background-color: #fff;
 			box-sizing: border-box;
 			width: $palette-width;
-			padding: 0 3px;
+			padding: 3px;
 			position: absolute;
 			left: 50%;
 			bottom: 75px;
 			margin-left: -$palette-width/2;
 			box-shadow: rgba(0,0,0,0.3) 0px 0px 5px;
+			line-height: 1px;
 
 			h4 {
 				font-weight: 200;
-				margin-top: 5px;
+				margin-top: 0;
+				line-height: 1.3em;
 			}
 
 			.swatch {
@@ -148,7 +156,7 @@ $font-family: "ProximaNova", "Interval Sans Pro", Arial, Helvetica, sans-serif;
 			position: fixed;
 			top: 10px;
 			left: 50%;
-			margin-left: 980/2 - $finalists-width - $finalists-margin/2;
+			margin-left: 940/2 - $finalists-width - $finalists-margin/2;
 		}
 
 		h3 {
@@ -169,7 +177,7 @@ $font-family: "ProximaNova", "Interval Sans Pro", Arial, Helvetica, sans-serif;
 			background-size: 16px 479px;
 			background-repeat: no-repeat;
 			background-position: 0 $finalists-img-padding;
-			>div {
+			>a {
 				box-sizing: border-box;
 				border: $finalists-img-padding solid transparent;
 				display: block;
@@ -182,6 +190,44 @@ $font-family: "ProximaNova", "Interval Sans Pro", Arial, Helvetica, sans-serif;
 					display: block;
 				}
 			}
+		}
+	}
+
+	.archibald-footer {
+		vertical-align: top;
+		margin: 2em auto;
+		>div {
+			display: inline-block;
+			width: 100px;
+			vertical-align: top;
+			position: relative;
+			margin: 1em;
+			font-size: 0.9em;
+
+			&:first-child {
+				.rank {
+					background-color: #3D95FE;
+				}
+			}
+
+			p {
+				font-size: 1em;
+			}
+
+		}
+
+		.rank {
+			display: block;
+			position: absolute;
+			background-color: #999;
+			width: $rank-circumference;
+			height: $rank-circumference;
+			top: -$rank-circumference/2;
+			right: -$rank-circumference/2;
+			color: #fff;
+			border-radius: $rank-circumference/2;
+			line-height: $rank-circumference;
+			box-shadow: rgba(0,0,0,0.1) 2px 2px 0;
 		}
 	}
 }
@@ -210,11 +256,39 @@ $font-family: "ProximaNova", "Interval Sans Pro", Arial, Helvetica, sans-serif;
 				margin: 1em 0;
 			}
 
-			svg {
-				display: block;
-				float: left;
+			.archibald-colours {
+
+				.OrdinalRangeSlider-tick {
+					color: #000;
+					.OrdinalRangeSlider-label {
+						display: none;
+					}
+				}
+				.OrdinalRangeSlider-label {
+					bottom: 5px;
+				}
+				svg .year text {
+					font-size: 0.8em;
+				}
+			}
+
+			.palette {
+
+				background-color: #fff;
+				box-sizing: border-box;
+				width: 90%;
+				position: relative;
+				left: auto;
+				bottom: auto;
+				margin: 0 auto;
+				line-height: 1px;
+				h4 {
+					line-height: 2em;
+				}
 			}
 		}
+
+
 
 		.archibald-finalists-container {
 			width: $finalists-width-mobile;
@@ -223,11 +297,12 @@ $font-family: "ProximaNova", "Interval Sans Pro", Arial, Helvetica, sans-serif;
 			top: 0;
 
 			&.fixed {
-				top: 10px;
+				top: 0px;
 				right: 10px;
 				left: auto;
 				margin: 0;
 			}
+
 
 			h3, h4 {
 				display: none;
@@ -243,6 +318,7 @@ $font-family: "ProximaNova", "Interval Sans Pro", Arial, Helvetica, sans-serif;
 
 .no-d3 {
 	.archibald-container {
+		padding-right: 0;
 		.archibald-section {
 			padding: $section-padding;
 			opacity: 1;

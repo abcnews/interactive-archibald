@@ -127,6 +127,9 @@ function processFinalists(pixels) {
 
 		finalistOutput.predictors = factors;
 		finalistOutput.image = name[name.length-1] + '.jpg';
+		finalistOutput.artist = d.artistname;
+		finalistOutput.title = d.title;
+		finalistOutput.cmid = d.coremediaid;
 		
 	});
 

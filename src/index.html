@@ -30,6 +30,10 @@
 				classed(document.body, 'platform-standard', mediaQueryList.matches);
 				classed(document.body, 'platform-mobile', !mediaQueryList.matches);
 
+				// page
+				classed(pageRoot, 'page', mediaQueryList.matches);
+				classed(pageRoot, 'not-page', !mediaQueryList.matches);
+
 				// content
 				classed(contentRoot, 'page_margins', mediaQueryList.matches);
 				classed(contentRoot, 'content', !mediaQueryList.matches);
@@ -62,7 +66,7 @@
 	<body class="platform-standard">
 		<div id="contentRoot" class="content">
 
-			<article>
+			<article id="pageRoot">
 
 				<!-- START CORE MEDIA ARTICLE -->
 				<div id="articleRoot" class="article section">

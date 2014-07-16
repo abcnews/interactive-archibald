@@ -114,8 +114,9 @@ function getPredictors(sections) {
 
 function dataFetched(data) {
 
-	var $header, images;
+	var $header, images, $footer, finalists, allPredictors;
 
+	// Header stuff
 	$header = $('.archibald-header');
 	images = [];
 
@@ -137,6 +138,38 @@ function dataFetched(data) {
 	});
 	$header.append(images);
 
+	// footer stuff
+	$footer = $('<div class="archibald-footer">').insertAfter($sections.last().find('p').first());
+	
+	allPredictors = [];
+	for(var key in data['section-predictors']) {
+		allPredictors = allPredictors.concat(data['section-predictors'][key]);
+	}
+	finalists = data.finalists.slice(0);
+	_.forEach(finalists, function(f){
+		f.totalScore = getFinalistScore(f, allPredictors);
+	});
+	finalists.sort(function(a,b){
+		return b.totalScore - a.totalScore;
+	});
+	
+	finalists = finalists.slice(0, 10);
+	
+	_.forEach(finalists, function(f, i) {
+		var markup;
+		markup = '<div>';
+		markup += '<a href="/news/date/title/' + f.cmid + '">';
+		markup += '<img src="'+archibald.config.assets + '/images/finalists/' + f.image + '"">';
+		markup += '</a>';
+		markup += '<h4>' + f.artist + '</h4>';
+		markup += '<p>' + f.title + '</p>';
+		markup += '<span class="rank">' + (i+1) + '</span>';
+		markup += '</div>';
+		$footer.append(markup);
+	});
+
+
+	// d3 (i.e. capable browsers only) stuff
 	if (window.d3) {
 		archibald.data = data;
 		archibald.finalists = d3.select('.archibald-finalists').selectAll('.finalist')
@@ -154,6 +187,8 @@ function dataFetched(data) {
 	} else {
 		$('body').addClass('no-d3');
 	}
+
+	$('window').trigger('resize');
 
 	// fix finalists on scroll
 	// setTimeout is so a page refresh with browser scrolled down has a chance
@@ -181,12 +216,14 @@ function dataFetched(data) {
 			if (d === 'down') {
 				$finalists.css({
 					position: 'absolute',
-					top: $sections.last().position().top + 30
+					top: $sections.last().position().top + 30,
+					right: 0
 				});
 			} else {
 				$finalists.css({
 					position: "",
-					top: ""
+					top: "",
+					right: ""
 				});
 			}
 		}, {
@@ -201,7 +238,13 @@ function updateFinalists(s) {
 	var $node, $container, size, columns;
 
 	function enter(s) {
-		div = s.append('div');
+		div = s.append('a')
+			.attr('title', function(d){
+				return d.title + ' by ' + d.artist;
+			})
+			.attr('href', function(d){
+				return '/news/date/title/' + d.cmid;
+			});
 		div.append('img').attr('src', function(d){
 			return archibald.config.assets + '/images/finalists/' + d.image;
 		});
@@ -215,7 +258,13 @@ function updateFinalists(s) {
 	$container = $node.parent();
 	columns = ($('body').hasClass('platform-standard')) ? 5 : 1;
 	size = $container.width()/columns;
-	$container.height(Math.ceil(archibald.data.finalists.length/columns) * $node.outerHeight());
+	
+	$container.height(
+		Math.min(
+			Math.ceil(archibald.data.finalists.length/columns) * $node.outerHeight(),
+			Math.floor($('#conclusion').height()/$node.height()) * $node.height()
+		)
+	);
 
 	// size
 	s.style('width', size+'px');

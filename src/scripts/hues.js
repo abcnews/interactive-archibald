@@ -84,7 +84,7 @@ function insertFilter(svg) {
 }
 
 function setSize() {
-	w = Math.min(700, parseInt(container.style('width'), 10));
+	w = Math.max(220, Math.min(700, parseInt(container.style('width'), 10)));
 	h = w;
 	
 	svg.attr('width', w).attr('height', h);
@@ -126,12 +126,15 @@ function displayYear(dataYear) {
 
 }
 
+function getCenterRadius() {
+	return d3.select('body').classed('platform-mobile') ? 20 : 30;
+}
+
 function updateYear(s) {
 	function enter(s) {
 		var g;
 		g = s.append('g').attr('class', 'year');
 		g.append('circle')
-			.attr('r', '30')
 			.style('filter', 'url(#dropshadow)')
 			.attr('fill', '#fff');
 		g.append('text')
@@ -140,6 +143,8 @@ function updateYear(s) {
 	}
 
 	s.enter().call(enter);
+	s.select('circle').transition().duration(animationSpeed)
+		.attr('r', getCenterRadius);
 	setTimeout(function(){
 		s.select('text').text(function(d){return d;});
 	}, animationSpeed/2);
@@ -163,11 +168,12 @@ function updateSwatches(s) {
 
 function updateHueChart(s) {
 
-	var arcGenerator, maxRadius, hueScale;
+	var arcGenerator, maxRadius, hueScale, centerRadius;
 
+	centerRadius = getCenterRadius();
 	hueScale = d3.scale.linear()
 		.clamp(true)
-		.range([30, Math.max(w,h)/2-30])
+		.range([centerRadius, Math.max(w,h)/2-centerRadius])
 		.domain([0.001,Math.max.apply(null, data[current].hueHistogram)]);
 
 	arcGenerator = d3.svg.arc()
