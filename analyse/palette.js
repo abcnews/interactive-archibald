@@ -7,6 +7,10 @@ convert = require('color-convert');
 
 function Palette(pixels, clusters) {
 
+	if ( !(this instanceof Palette) ) {
+		return new Palette(pixels, clusters);
+	}
+
 	clusters = clusters || 5;
 
 	this.pixels = pixels.map(function(d){

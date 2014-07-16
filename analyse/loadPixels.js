@@ -1,6 +1,5 @@
 
-var async, fs, path, pixels, convert,
-	output;
+var async, fs, path, pixels, convert;
 
 async = require('async');
 fs = require('fs');
@@ -8,9 +7,9 @@ path = require('path');
 pixels = require('get-pixels');
 convert = require('color-convert');
 
-output = [];
-
 module.exports = function(folder, callback) {
+
+	var output = [];
 
 	fs.readdir(folder, function(err, files){
 		if (err) {
@@ -33,39 +32,39 @@ module.exports = function(folder, callback) {
 		});
 
 	});
-}
 
-function loadData(file, cb) {
-	pixels(file, function(err, px) {
+	function loadData(file, cb) {
+		pixels(file, function(err, px) {
 
-		if(err) {
-			cb(err);
-			return;
-		}
-		
-		var i, x, y, color, n, shape, moments, s, max, out;
-
-		shape = px.shape.slice();
-		n = shape[0] * shape[1];
-		out = {
-			file: file.substr(file.lastIndexOf('/')+1),
-			pixels: []
-		}
-		
-		for(x=0; x < px.shape[0]; ++x) {
-			for(var y=0; y<px.shape[1]; ++y) {
-				// all operations performed in the Lab colour space.
-				out.pixels.push([
-					px.data[px.pick(x,y).offset],
-					px.data[px.pick(x,y).offset+1],
-					px.data[px.pick(x,y).offset+2]
-				]);
+			if(err) {
+				cb(err);
+				return;
 			}
-		}
+			
+			var i, x, y, color, n, shape, moments, s, max, out;
 
-		output.push(out);
+			shape = px.shape.slice();
+			n = shape[0] * shape[1];
+			out = {
+				file: file.substr(file.lastIndexOf('/')+1),
+				pixels: []
+			}
+			
+			for(x=0; x < px.shape[0]; ++x) {
+				for(var y=0; y<px.shape[1]; ++y) {
+					// all operations performed in the Lab colour space.
+					out.pixels.push([
+						px.data[px.pick(x,y).offset],
+						px.data[px.pick(x,y).offset+1],
+						px.data[px.pick(x,y).offset+2]
+					]);
+				}
+			}
 
-		console.log("Loaded: ",file);
-		cb();
-	});
+			output.push(out);
+
+			console.log("Loaded: ",file);
+			cb();
+		});
+	}
 }

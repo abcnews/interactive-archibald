@@ -2,17 +2,45 @@
 var w, h, 
 	data, current,
 	animationSpeed,
+	cycleTimer,
+	Slider,
+	yearsMap,
+	yearsSlider,
 	container, svg, hue, palette;
 
+Slider = require('news-interactive-component-ordinal-range-slider');
+
 function init(settings) {
-	container = d3.select(settings.container);
-	palette = container.append('div').attr('class', 'palette');
-	palette.append('h4').text('Dominant colours');
-	container.insert('h4', 'svg').text('Hues');
-	svg = container.append('svg');
-	hue = svg.append('g');
 	
+	var i, years;
+
+	container = d3.select(settings.container);
+	svg = container.append('svg');
+	palette = container.append('div').attr('class', 'palette');
+	palette.append('h4').text('Dominant palette');
+	hue = svg.append('g');
+	insertFilter(svg);
 	setSize();
+
+	yearsMap = {};
+	for (i=settings.data.length; i--;) {
+		yearsMap[settings.data[i].year] = settings.data[i];
+	}
+
+	years = settings.data.map(function(d){
+		return d.year;
+	}).sort();
+
+	$yearsSliderEl = $('<div></div>').appendTo(settings.container);
+	$yearsSliderEl.on('mouseenter', function(){
+		clearInterval(cycleTimer);
+		clearTimeout(cycleTimer);
+		cycleTimer = setTimeout(startHueChartCycle, 15000);
+	});
+    yearsSlider = new Slider($yearsSliderEl.get(0), years, function (year) {
+		displayYear(yearsMap[year]);
+		current = data.indexOf(yearsMap[year]);
+    });
 
 	animationSpeed = 1000;
 
@@ -21,13 +49,35 @@ function init(settings) {
 	});
 
 	// Start with something
-	current = data[0];
+	current = 0;
 
-	// update chart frequently
-	setInterval(cycleHueChart, animationSpeed);
+	startHueChartCycle();
+
+	$.waypoints('refresh');
 
 	// change with the times
 	d3.select(window).on('resize', setSize);
+}
+
+function insertFilter(svg) {
+	var filter, merge;
+	filter = svg.insert('filter')
+		.attr('id', 'dropshadow')
+		.attr('height', '130%');
+
+	filter.append('feGaussianBlur')
+		.attr('in', 'SourceAlpha')
+		.attr('stdDeviation', '3');
+	filter.append('feOffset')
+		.attr('dx', '0')
+		.attr('dy', '0')
+		.attr('result', 'offsetblur');
+
+	merge = filter.append('feMerge');
+
+	merge.append('feMergeNode');
+	merge.append('feMergeNode')
+		.attr('in', 'SourceGraphic');
 }
 
 function setSize() {
@@ -38,20 +88,33 @@ function setSize() {
 	hue.attr('transform', 'translate(' + [w/2,h/2] + ')')
 }
 
+function startHueChartCycle() {
+	// update chart frequently
+	cycleTimer = setInterval(cycleHueChart, animationSpeed);
+}
+
 function cycleHueChart() {
 
 	// Re-arrange data
-	data.push(current);
-	current = data.shift();
+	current++;
+	if (current >= data.length) {
+		current = 0;
+	}
 
+	yearsSlider.setCategory(data[current].year);
+}
+
+function displayYear(data) {
 	// Update the bars
-	hue.selectAll('.bar').data(current.hueHistogram).call(updateHueChart);
+	hue.selectAll('.bar').data(data.hueHistogram).call(updateHueChart);
 
 	// update the year
-	hue.selectAll('.year').data([current.year]).call(updateYear);
+	hue.selectAll('.year').data([data.year]).call(updateYear);
 
 	// update the swatchs
-	palette.selectAll('.swatch').data(current.palette).call(updateSwatches);
+	palette.selectAll('.swatch').data(data.palette).call(updateSwatches);
+
+
 }
 
 function updateYear(s) {
@@ -60,7 +123,8 @@ function updateYear(s) {
 		g = s.append('g').attr('class', 'year');
 		g.append('circle')
 			.attr('r', '30')
-			.attr('fill', '#ccc');
+			.style('filter', 'url(#dropshadow)')
+			.attr('fill', '#fff');
 		g.append('text')
 			.attr('text-anchor', 'middle')
 			.attr('alignment-baseline', 'middle');
@@ -95,8 +159,7 @@ function updateHueChart(s) {
 	hueScale = d3.scale.linear()
 		.clamp(true)
 		.range([30, Math.max(w,h)/2])
-		.domain([0.001,Math.max.apply(null, current.hueHistogram)]);
-		// .base(2);
+		.domain([0.001,Math.max.apply(null, data[current].hueHistogram)]);
 
 	arcGenerator = d3.svg.arc()
 		.innerRadius(function() {
@@ -117,10 +180,7 @@ function updateHueChart(s) {
 	}	
 
 	function enter(s) {
-		var bar;
-
-		bar = s.append('g');
-		bar.append('path')
+		s.append('path')
 			.attr('class', 'bar')
 			.attr('d', arcGenerator)
 			.style('fill', function(d, i) {

@@ -3,6 +3,9 @@ var Atoll;
 Atoll = require('atoll');
 
 function Stats(winners) {
+	if ( !(this instanceof Stats) ) {
+		return new Stats(winners);
+	}
 	this.winners = winners;
 	this.cache = [];
 }

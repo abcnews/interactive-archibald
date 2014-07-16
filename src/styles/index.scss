@@ -16,6 +16,8 @@ $finalists-padding: 5px;
 $finalists-img-padding: 1px;
 $section-overlap: 180px;
 $section-padding: 20px;
+$palette-width: 240px;
+$font-family: "ProximaNova", "Interval Sans Pro", Arial, Helvetica, sans-serif;
 
 .platform-mobile,
 .platform-standard {
@@ -33,7 +35,7 @@ $section-padding: 20px;
 .archibald-container {
 	position: relative;
 	padding-right: $finalists-width + $finalists-margin - $section-overlap ;
-	font-family:"ProximaNova", "Interval Sans Pro", Arial, Helvetica, sans-serif;
+	font-family: $font-family;
 
 	.archibald-section {
 		padding: $section-padding $section-overlap $section-padding $section-padding;
@@ -66,11 +68,62 @@ $section-padding: 20px;
 			border: none;
 		}
 
-		div.swatch {
-			width: 20%;
-			height: 30px;
-			display: inline-block;
+		.archibald-colours {
+			position: relative;
+			svg {
+				.year {
+					text {
+						font-family: $font-family;
+						font-weight: 200;
+						font-size: 1.5em;
+					}
+				}
+			}
+
+			.OrdinalRangeSlider-tick:nth-child(5n-3),
+			.OrdinalRangeSlider-tick:nth-child(5n-2),
+			.OrdinalRangeSlider-tick:nth-child(5n-1),
+			.OrdinalRangeSlider-tick:nth-child(5n) {
+				color: #000;
+				.OrdinalRangeSlider-label {
+					visibility: hidden;
+				}
+			}
+
+			.OrdinalRangeSlider-tick--active {
+				.OrdinalRangeSlider-label {
+					visibility: visible !important;
+					bottom: 22px;
+				}
+			}
 		}
+		.palette {
+
+			background-color: #fff;
+			box-sizing: border-box;
+			width: $palette-width;
+			padding: 0 3px;
+			position: absolute;
+			left: 50%;
+			bottom: 75px;
+			margin-left: -$palette-width/2;
+			box-shadow: rgba(0,0,0,0.3) 0px 0px 5px;
+
+			h4 {
+				font-weight: 200;
+				margin-top: 5px;
+			}
+
+			.swatch {
+				width: 20%;
+				height: 30px;
+				box-sizing: border-box;
+				display: inline-block;
+				border: 2px solid #fff;
+			}
+		}
+
+			
 	}
 
 	.archibald-finalists-container {

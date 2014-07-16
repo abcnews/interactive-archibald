@@ -6,8 +6,8 @@
  */
 
 var archibald, // namespace
-	$sections,
-	slider, domready, sectionify, ns, waypoints; // dependencies
+	$sections, $finalists,
+	domready, sectionify, ns, waypoints; // dependencies
 	
 
 // requirements
@@ -17,7 +17,6 @@ ns = require('simple-namespace');
 waypoints = require('./waypoints');
 hues = require('./hues');
 require('./raf');
-slider = require('news-interactive-component-ordinal-range-slider');
 
 archibald = {
 	version: require('./version')
@@ -34,7 +33,7 @@ ns('ABC.News.interactive', window).archibald = archibald;
 // DOM is ready
 function init() {
 
-	var $container, $finalists, seen;
+	var $container, seen;
 
 	// Attach waypoints to jquery
 	waypoints($, window);
@@ -45,52 +44,16 @@ function init() {
 	$container = $('<div class="archibald-container">')
 		.insertBefore($sections.first());
 
-	$finalists = $('<div class="archibald-finalists-container"><h3>Similarity to previous winners</h3><h4>2014 finalists</h4><div class="archibald-finalists"></div></div>').appendTo($container);
 	$sections.appendTo($container);
-
-	// Setup section waypoints
-	archibald.seen = [];
-	$sections.waypoint(changeSection, {
-		offset: function() {
-			return Math.min($finalists.height()/2, $(window).height()/3);
-		}
-	});
-
-	// fix finalists on scroll
-	// setTimeout is so a page refresh with browser scrolled down has a chance
-	// to move the page before waypoints is activated.
-	setTimeout(function() {
-		$sections.first().waypoint(function(d){
-			if (d === 'down') {
-				$finalists.addClass('fixed');
-			} else {
-				$finalists.removeClass('fixed');
-			}
-		}, {
-			offset: -10
-		});
-		$sections.last().waypoint(function(d){
-			if (d === 'down') {
-				$finalists.css({
-					position: 'absolute',
-					top: $sections.last().position().top + 30
-				});
-			} else {
-				$finalists.css({
-					position: "",
-					top: ""
-				});
-			}
-		}, {
-			offset: 0
-		});
-	}, 1000);
+	$finalists = $('<div class="archibald-finalists-container"><h3>Similarity to previous winners</h3><h4>2014 finalists</h4><div class="archibald-finalists"></div></div>').appendTo($container);
+	$sections.first().addClass('current');
 
 	// Fetch the data before we go any further
 	$.getJSON(archibald.config.assets + '/data/all.json', dataFetched);
 }
 
 function changeSection(direction) {
+	var $prev;
 	$sections.removeClass('current');
 	// This works more reliably than $.waypoints('before');
 	if (direction === 'down') {
@@ -98,7 +61,13 @@ function changeSection(direction) {
 		$(this).addClass('current');
 	} else {
 		archibald.seen.pop();
-		$(this).prev('.archibald-section').addClass('current');
+		$prev = $(this).prev('.archibald-section');
+		if ($prev.length) {
+			$prev.addClass('current');
+		} else {
+			$sections.first().addClass('current');
+		}
+		
 	}
 	updateFinalistsPanel();
 }
@@ -179,12 +148,51 @@ function dataFetched(data) {
 
 		// Initialise the colour panel
 		hues({
-			container: $('#colour').get(0),
+			container: $('<div class="archibald-colours">').insertAfter($('#colour').find('h2')).get(0),
 			data: archibald.data.winners
 		});
 	} else {
 		$('body').addClass('no-d3');
 	}
+
+	// fix finalists on scroll
+	// setTimeout is so a page refresh with browser scrolled down has a chance
+	// to move the page before waypoints is activated.
+	setTimeout(function() {
+
+		// Setup section waypoints
+		archibald.seen = [];
+		$sections.waypoint(changeSection, {
+			offset: function() {
+				return Math.min($finalists.height()/2, $(window).height()/3);
+			}
+		});
+
+		$sections.first().waypoint(function(d){
+			if (d === 'down') {
+				$finalists.addClass('fixed');
+			} else {
+				$finalists.removeClass('fixed');
+			}
+		}, {
+			offset: -10
+		});
+		$sections.last().waypoint(function(d){
+			if (d === 'down') {
+				$finalists.css({
+					position: 'absolute',
+					top: $sections.last().position().top + 30
+				});
+			} else {
+				$finalists.css({
+					position: "",
+					top: ""
+				});
+			}
+		}, {
+			offset: 0
+		});
+	}, 1000);
 		
 }
 
