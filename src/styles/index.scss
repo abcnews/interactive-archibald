@@ -28,7 +28,7 @@ $page-width: 940px;
 		line-height: 1px;
 		img {
 			display: inline-block;
-			width: 100px;
+			width: 50px;
 			height: auto;
 		}
 	}
@@ -363,5 +363,15 @@ $page-width: 940px;
 		.archibald-finalists-container {
 			display: none;
 		}
+	}
+}
+
+// Header fixes
+.article.section h1:first-child + .inline-content.wysiwyg.full {
+	width: auto;
+	padding-bottom: 0;
+	.inner {
+		width: 800px;
+		margin: 0 auto;
 	}
 }

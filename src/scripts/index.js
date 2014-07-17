@@ -121,28 +121,34 @@ function dataFetched(data) {
 	images = [];
 
 	// Add heading images
-	// _.each(data.finalists, function(d){
-	// 	var $img, $link;
-	// 	$img = $('<img>');
-	// 	$img.attr('alt', d.title + ' by ' + d.artist);
-	// 	$img.css({
-	// 			opacity: 0
-	// 		})
-	// 		.on('load', function(){
-	// 			var $this = $(this);
-	// 			setTimeout(function(){
-	// 				$this.fadeTo(300, 1);
-	// 			}, 2000*Math.random());
-	// 		})
-	// 		.attr('src', archibald.config.assets + '/images/finalists/' + d.image);
+	_.each(data.finalists, function(d){
+		var $img, $link;
+		$img = $('<img>');
+		$img.attr('alt', d.title + ' by ' + d.artist);
+		$img.css({
+				opacity: 0
+			})
+			.on('load', function(){
+				var $this = $(this);
+				setTimeout(function(){
+					$this.fadeTo(300, 1);
+				}, 2000*Math.random());
+			})
+			.attr('src', archibald.config.assets + '/images/finalists/' + d.image);
 
-	// 	$link = $('<a>')
-	// 		.attr('href', '/news/date/title/' + d.cmid)
-	// 		.attr('title', d.title + ' by ' + d.artist)
-	// 		.append($img);
-	// 	images.push($link);
-	// });
-	// $header.append(images);
+		// $link = $('<a>')
+		// 	.attr('href', '/news/date/title/' + d.cmid)
+		// 	.attr('title', d.title + ' by ' + d.artist)
+		// 	.append($img);
+		images.push($img);
+	});
+	$header.append(images);
+	if ($('body').hasClass('platform-mobile')) {
+		$header.appendTo($('article>header').first());
+	} else {
+		$header.prependTo('.article.section h1:first-child + .inline-content.wysiwyg.full');
+	}
+	
 
 	// footer stuff
 	$footer = $('<div class="archibald-footer">').insertAfter($sections.last().find('p').first());
