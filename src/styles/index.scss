@@ -11,14 +11,15 @@
 $finalists-width: 228px;
 $finalists-width-mobile: 60px;
 $finalists-key-width: 18px;
-$finalists-margin: 20px;
+$finalists-margin: 40px;
 $finalists-padding: 5px;
 $finalists-img-padding: 1px;
 $section-overlap: 180px;
-$section-padding: 20px;
+$section-padding: 30px;
 $palette-width: 240px;
 $font-family: "ProximaNova", "Interval Sans Pro", Arial, Helvetica, sans-serif;
 $rank-circumference: 22px;
+$page-width: 940px;
 
 .platform-mobile,
 .platform-standard {
@@ -40,25 +41,34 @@ $rank-circumference: 22px;
 
 	.archibald-section {
 		padding: $section-padding $section-overlap $section-padding $section-padding;
-		background: #f1f1f1;
-		margin: 20px 0;
+		background: #f6f6f6;
+		margin: 40px 0;
 		text-align: center;
 		font-size: 1.3em;
-		opacity: 0.4;
-		transition: opacity 0.3s;
+		transition: background-color 0.3s;
 
 		&.current {
-			opacity: 1;
+			background: #ebebeb;
 		}
 
 		h2 {
+			margin: 0.9em 0 0.5em;
+			font-size: 2.05em;
+			font-weight: 200;
+			letter-spacing: -0.025em;
+			color: #444;
 			&:first-child {
 				margin-top: 0;
 			}
 		}
 
 		p {
+			font-weight: 200;
 			font-size: 1.3em;
+			letter-spacing: -0.025em;
+			text-rendering: optimizelegibility;
+			color: #666;
+			line-height: 1.2em;
 		}
 
 		>img {
@@ -72,10 +82,14 @@ $rank-circumference: 22px;
 			margin: 1em 3em;
 			background: #fff;
 			border: none;
+			p {
+				color: #333;
+			}
 		}
 
 		.archibald-colours {
 			position: relative;
+			margin-bottom: 2.5em;
 			svg {
 				.year {
 					text {
@@ -124,6 +138,7 @@ $rank-circumference: 22px;
 			h4 {
 				font-weight: 200;
 				margin-top: 0;
+				margin-bottom: 0.1em;
 				line-height: 1.3em;
 			}
 
@@ -156,12 +171,13 @@ $rank-circumference: 22px;
 			position: fixed;
 			top: 10px;
 			left: 50%;
-			margin-left: 940/2 - $finalists-width - $finalists-margin/2;
+			margin-left: $page-width / 2 - $finalists-width - $finalists-padding*2;
 		}
 
 		h3 {
 			font-size: 20px;
 			font-weight: 200;
+			margin-bottom: 0.2em
 		}
 
 		h4 {
@@ -247,8 +263,16 @@ $rank-circumference: 22px;
 			margin: 10px 0;
 			@include clearfix;
 
+			h2 {
+				font-size: 1.15em;
+			}
+
 			p {
 				font-size: 0.8em;
+			}
+
+			>img {
+				margin: 2.5em auto;
 			}
 
 			blockquote {
@@ -311,6 +335,19 @@ $rank-circumference: 22px;
 			.archibald-finalists {
 				padding-left: $finalists-key-width;
 				width: $finalists-width-mobile - $finalists-key-width;
+			}
+		}
+		.archibald-footer {
+			vertical-align: top;
+			margin: 2em auto;
+			>div {
+				width: 80px;
+				margin: 0.5em;
+
+				h4 {
+					font-size: 0.8em;
+					line-height: 1em;
+				}
 			}
 		}
 	}

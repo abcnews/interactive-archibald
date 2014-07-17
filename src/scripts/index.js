@@ -122,8 +122,9 @@ function dataFetched(data) {
 
 	// Add heading images
 	_.each(data.finalists, function(d){
-		var $img;
+		var $img, $link;
 		$img = $('<img>');
+		$img.attr('alt', d.title + ' by ' + d.artist);
 		$img.css({
 				opacity: 0
 			})
@@ -134,7 +135,12 @@ function dataFetched(data) {
 				}, 2000*Math.random());
 			})
 			.attr('src', archibald.config.assets + '/images/finalists/' + d.image);
-		images.push($img);
+
+		$link = $('<a>')
+			.attr('href', '/news/date/title/' + d.cmid)
+			.attr('title', d.title + ' by ' + d.artist)
+			.append($img);
+		images.push($link);
 	});
 	$header.append(images);
 
@@ -181,7 +187,8 @@ function dataFetched(data) {
 
 		// Initialise the colour panel
 		hues.init({
-			container: $('<div class="archibald-colours">').insertAfter($('#colour').find('h2')).get(0),
+			section: $('#colour').get(0),
+			container: $('<div class="archibald-colours">').appendTo('#colour').get(0),
 			data: archibald.data.winners
 		});
 	} else {

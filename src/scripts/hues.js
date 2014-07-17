@@ -6,7 +6,7 @@ var w, h,
 	Slider,
 	yearsMap,
 	yearsSlider,
-	container, svg, hue, palette;
+	section, container, svg, hue, palette;
 
 Slider = require('news-interactive-component-ordinal-range-slider');
 
@@ -15,6 +15,7 @@ function init(settings) {
 	var i, years;
 
 	container = d3.select(settings.container);
+	section = d3.select(settings.section);
 	svg = container.append('svg');
 	palette = container.append('div').attr('class', 'palette');
 	palette.append('h4').text('Dominant palette');
@@ -98,14 +99,16 @@ function startHueChartCycle() {
 
 function cycleHueChart() {
 
-	// Re-arrange data
-	current++;
-	if (current >= data.length) {
-		current = 0;
+	if (section.classed('current')) {
+		// Re-arrange data
+		current++;
+		if (current >= data.length) {
+			current = 0;
+		}
+
+		yearsSlider.setCategory(data[current].year);
 	}
-
-	yearsSlider.setCategory(data[current].year);
-
+		
 	requestAnimationFrame(function(){
 		cycleTimer = setTimeout(cycleHueChart, animationSpeed);
 	});
