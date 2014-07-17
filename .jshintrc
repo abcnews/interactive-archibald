@@ -16,6 +16,7 @@
     "node": true,
     "browser": true,
     "globals": {
+        "_": false,
         "$": false,
         "d3": false,
         "ABC": false

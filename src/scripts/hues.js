@@ -6,6 +6,7 @@ var w, h,
 	Slider,
 	yearsMap,
 	yearsSlider,
+	$yearsSliderEl,
 	section, container, svg, hue, palette;
 
 Slider = require('news-interactive-component-ordinal-range-slider');
@@ -15,6 +16,10 @@ function init(settings) {
 	var i, years;
 
 	container = d3.select(settings.container);
+
+	container.append('p')
+		.text('Use the slider to explore the colour profiles of previous winners.');
+
 	section = d3.select(settings.section);
 	svg = container.append('svg');
 	palette = container.append('div').attr('class', 'palette');
@@ -22,6 +27,8 @@ function init(settings) {
 	hue = svg.append('g');
 	insertFilter(svg);
 	setSize();
+
+
 
 	yearsMap = {};
 	for (i=settings.data.length; i--;) {
@@ -89,12 +96,7 @@ function setSize() {
 	h = w;
 	
 	svg.attr('width', w).attr('height', h);
-	hue.attr('transform', 'translate(' + [w/2,h/2] + ')')
-}
-
-function startHueChartCycle() {
-	// update chart frequently
-	cycleTimer = setTimeout(cycleHueChart, animationSpeed);
+	hue.attr('transform', 'translate(' + [w/2,h/2] + ')');
 }
 
 function cycleHueChart() {
@@ -171,7 +173,7 @@ function updateSwatches(s) {
 
 function updateHueChart(s) {
 
-	var arcGenerator, maxRadius, hueScale, centerRadius;
+	var arcGenerator, hueScale, centerRadius;
 
 	centerRadius = getCenterRadius();
 	hueScale = d3.scale.linear()

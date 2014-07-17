@@ -7,7 +7,7 @@
 
 var archibald, // namespace
 	$sections, $finalists,
-	domready, sectionify, ns, waypoints; // dependencies
+	domready, sectionify, ns, waypoints, hues; // dependencies
 	
 
 // requirements
@@ -25,7 +25,7 @@ archibald = {
 archibald.init = function(config) {
 	this.config = config;
 	domready(init);
-}
+};
 
 // Export
 ns('ABC.News.interactive', window).archibald = archibald;
@@ -33,7 +33,7 @@ ns('ABC.News.interactive', window).archibald = archibald;
 // DOM is ready
 function init() {
 
-	var $container, seen;
+	var $container;
 
 	// Attach waypoints to jquery
 	waypoints($, window);
@@ -80,7 +80,7 @@ function updateFinalistsPanel() {
 }
 
 function sortFinalists(a,b) {
-	var i, aVal, bVal, predictors;
+	var aVal, bVal, predictors;
 	predictors = archibald.currentPredictors;
 	aVal = getFinalistScore(a, predictors);
 	bVal = getFinalistScore(b, predictors);
@@ -89,7 +89,7 @@ function sortFinalists(a,b) {
 
 function getFinalistScore(finalist, predictors) {
 	
-	var score = 0;
+	var i, score = 0;
 	if (!predictors) {
 		return score;
 	}
@@ -245,6 +245,7 @@ function updateFinalists(s) {
 	var $node, $container, size, columns;
 
 	function enter(s) {
+		var div;
 		div = s.append('a')
 			.attr('title', function(d){
 				return d.title + ' by ' + d.artist;
