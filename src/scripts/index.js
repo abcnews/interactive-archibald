@@ -155,7 +155,7 @@ function dataFetched(data) {
 	
 
 	// footer stuff
-	$footer = $('<div class="archibald-footer">').insertAfter($sections.last().find('p').first());
+	$footer = $('<div class="archibald-footer">');
 	
 	allPredictors = [];
 	for(var key in data['section-predictors']) {
@@ -183,6 +183,8 @@ function dataFetched(data) {
 		markup += '</div>';
 		$footer.append(markup);
 	});
+
+	$footer.insertAfter($sections.last().find('h3').first());
 
 
 	// d3 (i.e. capable browsers only) stuff
