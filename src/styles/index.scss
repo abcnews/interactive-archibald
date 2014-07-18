@@ -193,6 +193,7 @@ $page-width: 940px;
 			background-size: 16px 479px;
 			background-repeat: no-repeat;
 			background-position: 0 $finalists-img-padding;
+
 			>a {
 				box-sizing: border-box;
 				border: $finalists-img-padding solid transparent;
@@ -200,6 +201,13 @@ $page-width: 940px;
 				position: absolute;
 				overflow: hidden;
 				transition: top 0.4s, left 0.4s;
+
+				&.winner {
+					border-color: #3D95FE;
+					outline: 3px solid #3D95FE;
+					z-index: 2;
+				}
+
 				img {
 					width: 100%;
 					height: auto;

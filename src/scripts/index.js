@@ -6,7 +6,7 @@
  */
 
 var archibald, // namespace
-	$sections, $finalists,
+	$sections, $finalists, winner,
 	domready, sectionify, ns, waypoints, hues; // dependencies
 	
 
@@ -37,6 +37,10 @@ function init() {
 
 	// Attach waypoints to jquery
 	waypoints($, window);
+
+	// winner
+	winner = $('.archibald-header').data('winner');
+
 
 	// Sort out all the markup
 	$sections = $(sectionify());
@@ -283,6 +287,9 @@ function updateFinalists(s) {
 	// size
 	s.style('width', size+'px');
 	s.style('height', size+'px');
+	s.classed('winner', function(d){
+		return (d.file === winner);
+	});
 
 	// position
 	s.style('top', function(d, i){
@@ -292,6 +299,9 @@ function updateFinalists(s) {
 		return (i%columns * size + $container.innerWidth() - $container.width()) + 'px';
 	});
 	s.style('opacity', function(d, i){
+		if (d.file === winner) {
+			return 1;
+		}
 		return 0.3 + 0.7 * (1-i/archibald.data.finalists.length);
 	});
 
